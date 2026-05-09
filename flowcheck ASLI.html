@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowCheck — Evaluasi Alur Pembelajaran Pertemuan 10 & 11</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--b50:#E6F1FB;--b100:#B5D4F4;--b200:#85B7EB;--b400:#378ADD;--b600:#185FA5;--b800:#0C447C;--bg:#F8FAFD;--surface:#fff;--s2:#F1F5FB;--border:#DCE8F5;--text:#0D1B2E;--t2:#4A6380;--t3:#9AB0C8;--r:10px;--r2:7px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+.app{max-width:820px;margin:0 auto;padding:26px 20px 80px;}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:38px;height:38px;background:var(--b600);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:700;}
+.logo-text{font-size:19px;font-weight:700;color:var(--text);}
+.logo-text span{color:var(--b600);}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.badge{font-size:11px;padding:4px 11px;border-radius:20px;}
+.badge-blue{background:var(--b50);color:var(--b800);border:1px solid var(--b100);}
+.badge-gray{background:var(--s2);color:var(--t2);border:1px solid var(--border);}
+.tabs{display:flex;gap:4px;background:var(--s2);border-radius:var(--r);padding:4px;margin-bottom:22px;}
+.tab{flex:1;padding:8px 6px;text-align:center;font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;border-radius:var(--r2);border:none;background:transparent;font-family:inherit;transition:all .2s;}
+.tab.active{background:var(--surface);color:var(--b600);border:1px solid var(--border);}
+.tab:hover:not(.active){color:var(--text);}
+.section{display:none;}
+.section.active{display:block;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:12px;}
+.card-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.card-sub{font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.5;}
+.tip{background:var(--b50);border-left:3px solid var(--b400);border-radius:0 var(--r2) var(--r2) 0;padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--b800);line-height:1.5;}
+label{display:block;font-size:11px;font-weight:600;color:var(--t2);margin-bottom:4px;margin-top:12px;text-transform:uppercase;letter-spacing:.04em;}
+input,select,textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:8px 12px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;resize:vertical;}
+input:focus,select:focus,textarea:focus{border-color:var(--b400);box-shadow:0 0 0 3px rgba(55,138,221,.1);}
+textarea{min-height:72px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn{padding:9px 20px;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:6px;border:none;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--t2);}
+.btn-ghost:hover{border-color:var(--t2);color:var(--text);}
+.btn-primary{background:var(--b600);color:#fff;}
+.btn-primary:hover{background:var(--b400);}
+.btn:active{transform:scale(.98);}
+.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.metric{background:var(--s2);border-radius:var(--r);padding:14px;text-align:center;border:1px solid var(--border);}
+.metric-val{font-size:26px;font-weight:700;color:var(--b600);}
+.metric-label{font-size:11px;color:var(--t2);margin-top:2px;}
+.score-hero{display:flex;align-items:center;justify-content:center;gap:24px;background:linear-gradient(135deg,var(--b50),#fff);border:1px solid var(--b100);border-radius:var(--r);padding:20px;margin-bottom:14px;}
+.score-num{font-size:56px;font-weight:700;color:var(--b600);line-height:1;}
+.score-info p{font-size:15px;color:var(--b800);font-weight:600;margin-bottom:4px;}
+.score-info span{font-size:13px;color:var(--t2);}
+.pbar{width:100%;height:8px;background:var(--s2);border-radius:4px;overflow:hidden;margin-top:10px;}
+.pbar-fill{height:100%;background:var(--b400);border-radius:4px;transition:width .6s;}
+.crit-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.crit-item{padding:10px 13px;border-radius:var(--r2);border:1px solid var(--border);background:var(--s2);}
+.crit-row{display:flex;align-items:center;justify-content:space-between;}
+.crit-left{display:flex;align-items:center;gap:9px;}
+.crit-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.ic-pass{background:var(--b50);color:var(--b600);}
+.ic-warn{background:#FAEEDA;color:#854F0B;}
+.ic-fail{background:#FCEBEB;color:#A32D2D;}
+.crit-name{font-size:13px;color:var(--text);}
+.st{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;}
+.st-pass{background:var(--b50);color:var(--b800);}
+.st-warn{background:#FAEEDA;color:#854F0B;}
+.st-fail{background:#FCEBEB;color:#A32D2D;}
+.crit-fb{font-size:12px;color:var(--t2);margin-top:5px;padding-left:33px;line-height:1.5;}
+.fb{border-radius:var(--r2);padding:11px 14px;margin-bottom:8px;font-size:13px;line-height:1.6;border:1px solid;}
+.fb-success{background:#EAF3DE;color:#27500A;border-color:#C0DD97;}
+.fb-warn{background:#FAEEDA;color:#854F0B;border-color:#FAC775;}
+.fb-info{background:var(--b50);color:var(--b800);border-color:var(--b200);}
+.fb-label{font-weight:700;margin-bottom:3px;}
+.flowchart{display:flex;flex-direction:column;align-items:center;margin:14px 0;}
+.flow-node{border-radius:var(--r);padding:13px 20px;font-size:13px;text-align:center;width:100%;max-width:360px;transition:all .3s;}
+.fn-default{background:var(--b50);border:1.5px solid var(--b200);color:var(--b800);}
+.fn-active{background:var(--b600);border:1.5px solid var(--b600);color:#fff;}
+.fn-title{font-weight:700;margin-bottom:3px;}
+.fn-time{font-size:11px;opacity:.8;margin-bottom:2px;}
+.fn-desc{font-size:12px;opacity:.75;}
+.flow-arr{color:var(--b200);font-size:22px;margin:2px 0;text-align:center;}
+.kko-sa-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;}
+.kko-sa-card{background:var(--s2);border:1px solid var(--border);border-radius:var(--r2);padding:12px;cursor:pointer;transition:all .2s;}
+.kko-sa-card:hover{border-color:var(--b400);}
+.kko-sa-card.selected{border-color:var(--b600);background:var(--b50);}
+.kko-sa-level{font-size:11px;font-weight:700;color:var(--b600);margin-bottom:4px;}
+.kko-sa-desc{font-size:12px;color:var(--t2);}
+.sa-result{background:var(--b50);border:1px solid var(--b200);border-radius:var(--r);padding:16px;margin-top:12px;}
+.sa-result h4{font-size:14px;color:var(--b800);margin-bottom:8px;}
+.sa-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--b100);font-size:13px;}
+.sa-item:last-child{border:none;}
+.sa-score{font-weight:700;color:var(--b600);}
+.ref-item{display:flex;gap:10px;padding:11px 13px;border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;}
+.ref-num{width:26px;height:26px;background:var(--b50);color:var(--b800);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.ref-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.ref-desc{font-size:12px;color:var(--t2);line-height:1.5;}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--b50);color:var(--b800);border:1px solid var(--b100);display:inline-block;margin:2px 2px 0 0;}
+.ptm-toggle{display:flex;gap:8px;margin-bottom:16px;}
+.ptm-btn{flex:1;padding:10px;border-radius:var(--r2);border:1px solid var(--border);background:var(--s2);color:var(--t2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
+.ptm-btn.active{background:var(--b600);color:#fff;border-color:var(--b600);}
+.empty{text-align:center;padding:3rem;color:var(--t2);}
+.empty-icon{font-size:40px;margin-bottom:10px;}
+@media(max-width:600px){.field-row{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr 1fr;}.kko-sa-grid{grid-template-columns:1fr 1fr;}.header{flex-direction:column;gap:8px;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">FC</div>
+      <div class="logo-text">Flow<span>Check</span></div>
+    </div>
+    <div class="header-right">
+      <div class="badge badge-blue">Pertemuan 10 & 11 — CPMK 4</div>
+      <div class="badge badge-gray">Evaluasi Alur & Self-Assessment KKO</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('input')">📝 Input</button>
+    <button class="tab" onclick="switchTab('analisis')">📊 Analisis</button>
+    <button class="tab" onclick="switchTab('selfassess')">🎯 Self-Assessment</button>
+    <button class="tab" onclick="switchTab('alur')">🗺️ Alur Visual</button>
+    <button class="tab" onclick="switchTab('referensi')">📚 Referensi</button>
+  </div>
+
+  <!-- INPUT -->
+  <div class="section active" id="sec-input">
+    <div class="card">
+      <div class="card-title">📝 Input Komponen Pembelajaran</div>
+      <div class="card-sub">Pertemuan 10: Pengenalan FlowCheck & Analisis Alur · Pertemuan 11: Self-Assessment berbasis KKO (CPMK 4)</div>
+      <div class="tip"><strong>Scaffolding Tip:</strong> Isi semua komponen RPP yang sudah kamu buat di MicroPlan (Pertemuan 6-7) untuk dievaluasi di sini. FlowCheck akan menganalisis kelengkapan dan kualitas alur pembelajaran kamu.</div>
+      <div class="ptm-toggle">
+        <button class="ptm-btn active" onclick="setPtm(this,10)" id="ptm10">📊 Pertemuan 10 — Analisis Alur</button>
+        <button class="ptm-btn" onclick="setPtm(this,11)" id="ptm11">🎯 Pertemuan 11 — Self-Assessment KKO</button>
+      </div>
+      <div class="field-row">
+        <div><label>Mata Kuliah</label><input id="fc-mapel" value="Perencanaan Pembelajaran"></div>
+        <div><label>Pertemuan ke-</label><input id="fc-ptm" type="number" value="10" min="10" max="11"></div>
+      </div>
+      <label>Tujuan Pembelajaran yang Dievaluasi</label>
+      <textarea id="fc-tujuan" placeholder="Copy tujuan pembelajaran dari RPP yang sudah dibuat di MicroPlan..."></textarea>
+      <div class="field-row">
+        <div><label>CPMK</label><input id="fc-cpmk" value="CPMK 4"></div>
+        <div><label>KKO yang Digunakan</label><input id="fc-kko" placeholder="Mengevaluasi / Menganalisis..."></div>
+      </div>
+      <label>Strategi Pembelajaran</label>
+      <select id="fc-strategi">
+        <option>Microlearning + Scaffolding</option>
+        <option>Guided Practice + Self-Assessment</option>
+        <option>Discovery Learning</option>
+        <option>Project Based Learning</option>
+        <option>Ceramah konvensional</option>
+      </select>
+      <label>Alokasi Waktu (menit)</label>
+      <input id="fc-waktu" type="number" value="150">
+      <label>Deskripsi Kegiatan Inti</label>
+      <textarea id="fc-kegiatan" placeholder="Pertemuan 10: Dosen demonstrasikan FlowCheck (modeling), mahasiswa input komponen RPP (guided), mahasiswa analisis alur (mandiri)&#10;Pertemuan 11: Mahasiswa melakukan self-assessment via FlowCheck, mengisi rubrik KKO, mendapat feedback scaffolding otomatis..."></textarea>
+      <div class="field-row">
+        <div><label>Media</label><input id="fc-media" value="Aplikasi FlowCheck + Google Classroom"></div>
+        <div><label>Penilaian</label><input id="fc-penilaian" placeholder="Laporan eksplorasi FlowCheck / Laporan Self-Assessment..."></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="resetFC()">↺ Reset</button>
+        <button class="btn btn-primary" onclick="runAnalysis()">🔍 Analisis Sekarang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALISIS -->
+  <div class="section" id="sec-analisis">
+    <div id="analisis-content"><div class="empty"><div class="empty-icon">📊</div><p>Isi form di tab <strong>Input</strong> lalu klik "Analisis Sekarang"</p></div></div>
+  </div>
+
+  <!-- SELF ASSESSMENT -->
+  <div class="section" id="sec-selfassess">
+    <div class="card">
+      <div class="card-title">🎯 Self-Assessment Berbasis KKO (Pertemuan 11 — CPMK 4)</div>
+      <div class="card-sub">Nilai diri sendiri sesuai level Taksonomi Bloom yang sudah dicapai dalam merancang perencanaan pembelajaran.</div>
+      <div class="tip"><strong>CPMK 4:</strong> Mahasiswa mampu mengevaluasi kualitas perencanaan pembelajaran menggunakan FlowCheck dan self-assessment berbasis KKO (C4, C5).</div>
+      <div class="kko-sa-grid" id="kkoSAGrid">
+        ${[
+          {l:'C1 — Mengingat',d:'Saya mampu menyebutkan & mendefinisikan komponen RPP Kurikulum Merdeka',q:['Saya hafal seluruh komponen RPP','Saya bisa mendefinisikan OBE, CPL, CPMK','Saya mengingat format tujuan ABCD']},
+          {l:'C2 — Memahami',d:'Saya mampu menjelaskan & membedakan komponen RPP dengan benar',q:['Saya bisa menjelaskan perbedaan K13 vs Kurikulum Merdeka','Saya memahami keterkaitan CPL-CPMK-Tujuan','Saya mengerti konsep microlearning & scaffolding']},
+          {l:'C3 — Menerapkan',d:'Saya mampu menggunakan MicroPlan untuk merancang RPP',q:['Saya bisa menggunakan aplikasi MicroPlan','Saya menerapkan format ABCD pada tujuan','Saya melaksanakan alur scaffolding di RPP']},
+          {l:'C4 — Menganalisis',d:'Saya mampu menganalisis kesesuaian RPP dengan CPL/CPMK',q:['Saya bisa menganalisis kekuatan RPP saya','Saya membandingkan RPP saya dengan contoh ideal','Saya menguraikan ketidaksesuaian tujuan & penilaian']},
+          {l:'C5 — Mengevaluasi',d:'Saya mampu mengevaluasi & memberi penilaian terhadap RPP',q:['Saya bisa menilai kualitas RPP secara kritis','Saya memvalidasi kesesuaian RPP dengan standar','Saya memutuskan revisi yang perlu dilakukan']},
+          {l:'C6 — Mencipta',d:'Saya mampu merancang RPP orisinal yang inovatif',q:['Saya merancang RPP yang unik & inovatif','Saya mengembangkan media pembelajaran baru','Saya menyusun RPP yang relevan & berdampak']},
+        ].map((k,i)=>`<div class="kko-sa-card" id="sacard${i}" onclick="selectSA(${i})"><div class="kko-sa-level">${k.l}</div><div class="kko-sa-desc">${k.d}</div></div>`).join('')}
+      </div>
+      <div id="sa-detail"></div>
+      <div id="sa-result"></div>
+    </div>
+  </div>
+
+  <!-- ALUR VISUAL -->
+  <div class="section" id="sec-alur">
+    <div id="alur-content"><div class="empty"><div class="empty-icon">🗺️</div><p>Isi form di tab <strong>Input</strong> lalu klik "Analisis Sekarang"</p></div></div>
+  </div>
+
+  <!-- REFERENSI -->
+  <div class="section" id="sec-referensi">
+    <div class="card">
+      <div class="card-title">📚 Referensi Pertemuan 10 & 11</div>
+      <div class="card-sub">Sumber belajar untuk Evaluasi Alur Pembelajaran & Self-Assessment berbasis KKO</div>
+      ${[
+        {n:1,t:'Kemendikbudristek (2022)',d:'Panduan Pembelajaran dan Asesmen Kurikulum Merdeka. Referensi utama untuk standar penilaian autentik.',tags:['Kurikulum Merdeka','Asesmen']},
+        {n:2,t:'Anderson & Krathwohl (2001)',d:'A Taxonomy for Learning, Teaching, and Assessing — Dasar self-assessment berbasis KKO C1–C6.',tags:['Bloom Taxonomy','Self-Assessment','KKO']},
+        {n:3,t:'Aplikasi FlowCheck',d:'Produk Digital 2 — Analisis & Evaluasi Alur Pembelajaran berbasis Microlearning & Scaffolding.',tags:['FlowCheck','Evaluasi','Digital']},
+        {n:4,t:'Hyland, K. (2007)',d:'Scaffolded Writing — Strategi scaffolding sebagai feedback bertahap dalam evaluasi pembelajaran.',tags:['Scaffolding','Feedback']},
+        {n:5,t:'Merrill, M.D. (2002)',d:'First Principles of Instruction — Prinsip desain instruksional time-bound yang efisien.',tags:['Instructional Design','Time-Bound']},
+        {n:6,t:'Bruck, Motiwalla & Foerster (2012)',d:'Microlearning: Short and Sweet — Strategi unit belajar kecil yang efektif untuk evaluasi formatif.',tags:['Microlearning','Formatif']},
+      ].map(r=>`<div class="ref-item"><div class="ref-num">${r.n}</div><div><div class="ref-title">${r.t}</div><div class="ref-desc">${r.d}</div><div style="margin-top:5px">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></div>`).join('')}
+    </div>
+  </div>
+</div>
+
+<script>
+let activePtm=10;
+const saData=[
+  {l:'C1',q:['Saya hafal seluruh komponen RPP Kurikulum Merdeka','Saya bisa mendefinisikan OBE, CPL, dan CPMK','Saya mengingat format tujuan ABCD dengan benar']},
+  {l:'C2',q:['Saya bisa menjelaskan perbedaan K13 vs Kurikulum Merdeka','Saya memahami keterkaitan CPL-CPMK-Tujuan Pembelajaran','Saya mengerti konsep microlearning & scaffolding']},
+  {l:'C3',q:['Saya bisa menggunakan aplikasi MicroPlan dengan lancar','Saya menerapkan format ABCD pada tujuan pembelajaran','Saya melaksanakan alur scaffolding di RPP yang dibuat']},
+  {l:'C4',q:['Saya bisa menganalisis kekuatan dan kelemahan RPP saya','Saya membandingkan RPP saya dengan contoh ideal','Saya menguraikan ketidaksesuaian tujuan & penilaian']},
+  {l:'C5',q:['Saya bisa menilai kualitas RPP secara kritis dan objektif','Saya memvalidasi kesesuaian RPP dengan standar OBE','Saya memutuskan revisi yang perlu dilakukan']},
+  {l:'C6',q:['Saya merancang RPP yang unik, inovatif, dan orisinal','Saya mengembangkan media pembelajaran yang relevan','Saya menyusun RPP yang berdampak nyata bagi peserta didik']},
+];
+let saScores={};
+let selectedSA=-1;
+
+function setPtm(el,n){activePtm=n;document.querySelectorAll('.ptm-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('fc-ptm').value=n;}
+function switchTab(id){document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['input','analisis','selfassess','alur','referensi'][i]===id);});document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');}
+function getV(id){return(document.getElementById(id)||{}).value||'';}
+function resetFC(){['fc-mapel','fc-ptm','fc-tujuan','fc-cpmk','fc-kko','fc-waktu','fc-kegiatan','fc-media','fc-penilaian'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=id==='fc-mapel'?'Perencanaan Pembelajaran':id==='fc-waktu'?'150':id==='fc-cpmk'?'CPMK 4':id==='fc-media'?'Aplikasi FlowCheck + Google Classroom':id==='fc-ptm'?'10':'';})}
+
+function selectSA(i){
+  selectedSA=i;
+  document.querySelectorAll('.kko-sa-card').forEach((c,j)=>c.classList.toggle('selected',j===i));
+  const s=saData[i];
+  document.getElementById('sa-detail').innerHTML=`
+    <div style="background:var(--b50);border:1px solid var(--b200);border-radius:var(--r2);padding:14px;margin-top:12px;">
+      <div style="font-size:13px;font-weight:700;color:var(--b800);margin-bottom:10px;">Self-Assessment Level ${s.l} — Beri skor 1–5 untuk setiap pernyataan:</div>
+      ${s.q.map((q,qi)=>`
+        <div style="margin-bottom:10px;">
+          <div style="font-size:13px;color:var(--text);margin-bottom:5px;">${qi+1}. ${q}</div>
+          <div style="display:flex;gap:6px;">
+            ${[1,2,3,4,5].map(v=>`<button onclick="setSAScore(${i},${qi},${v})" id="sa${i}_${qi}_${v}" style="width:36px;height:32px;border-radius:var(--r2);border:1px solid var(--border);background:var(--s2);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--b400)'" onmouseout="if(!this.classList.contains('active-score'))this.style.borderColor='var(--border)'">${v}</button>`).join('')}
+            <span style="font-size:11px;color:var(--t3);align-self:center;margin-left:4px;">1=Belum · 3=Cukup · 5=Sangat</span>
+          </div>
+        </div>`).join('')}
+      <button class="btn btn-primary" style="margin-top:8px;" onclick="calcSA(${i})">✅ Simpan & Lihat Hasil</button>
+    </div>`;
+}
+
+function setSAScore(level,q,v){
+  if(!saScores[level])saScores[level]=[];
+  saScores[level][q]=v;
+  for(let x=1;x<=5;x++){const btn=document.getElementById(`sa${level}_${q}_${x}`);if(btn){btn.style.background=x<=v?'var(--b600)':'var(--s2)';btn.style.color=x<=v?'#fff':'var(--t2)';btn.style.borderColor=x===v?'var(--b600)':'var(--border)';}}
+}
+
+function calcSA(i){
+  const scores=saScores[i]||[];
+  if(scores.filter(Boolean).length<3){alert('Isi semua skor dulu ya!');return;}
+  const avg=(scores.reduce((a,b)=>a+(b||0),0)/3).toFixed(1);
+  const label=avg>=4.5?'Sangat Baik ⭐':avg>=3.5?'Baik ✅':avg>=2.5?'Cukup ⚠️':'Perlu Ditingkatkan ❗';
+  const fb=avg>=4?'Pencapaian level ini sudah sangat baik! Pertahankan dan tingkatkan ke level berikutnya.':avg>=3?'Cukup baik, masih ada ruang untuk ditingkatkan. Pelajari kembali materi terkait.':'Level ini perlu lebih banyak latihan. Kembali ke referensi dan diskusikan dengan dosen.';
+
+  let allDone=Object.keys(saScores).length;
+  let resultHTML='';
+  if(allDone>=3){
+    const allAvg=Object.values(saScores).map(s=>s.reduce((a,b)=>a+(b||0),0)/3);
+    const totalAvg=(allAvg.reduce((a,b)=>a+b,0)/allAvg.length).toFixed(1);
+    resultHTML=`<div class="sa-result"><h4>📊 Rekap Self-Assessment Sementara (${allDone}/6 level)</h4>${Object.entries(saScores).map(([l,s])=>`<div class="sa-item"><span>Level ${saData[l].l}</span><span class="sa-score">${(s.reduce((a,b)=>a+(b||0),0)/3).toFixed(1)}/5</span></div>`).join('')}<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--b200);display:flex;justify-content:space-between;font-weight:700;font-size:14px;color:var(--b800);"><span>Rata-rata Keseluruhan</span><span>${totalAvg}/5</span></div></div>`;
+  }
+
+  document.getElementById('sa-result').innerHTML=`
+    <div style="background:var(--b50);border:1px solid var(--b200);border-radius:var(--r2);padding:14px;margin-top:10px;">
+      <div style="font-size:14px;font-weight:700;color:var(--b800);margin-bottom:4px;">${saData[i].l}: ${label} — Rata-rata ${avg}/5</div>
+      <div style="font-size:13px;color:var(--t2);">${fb}</div>
+    </div>${resultHTML}`;
+}
+
+function runAnalysis(){
+  const mapel=getV('fc-mapel'),ptm=getV('fc-ptm'),tujuan=getV('fc-tujuan'),
+    cpmk=getV('fc-cpmk'),kko=getV('fc-kko'),strategi=getV('fc-strategi'),
+    waktu=parseInt(getV('fc-waktu'))||0,kegiatan=getV('fc-kegiatan'),
+    media=getV('fc-media'),penilaian=getV('fc-penilaian');
+  const keg=kegiatan.toLowerCase();const tj=tujuan.toLowerCase();
+
+  const criteria=[
+    {n:'Tujuan pembelajaran diisi',p:tujuan.length>10,w:false,fb:'Tujuan wajib ada, copy dari RPP MicroPlan kamu (Pertemuan 6-7).'},
+    {n:'Format ABCD pada tujuan',p:tj.includes('mampu')||tj.includes('mahasiswa'),w:false,fb:'Pastikan ada audience (mahasiswa), behavior (KKO), condition & degree.'},
+    {n:'CPMK 4 tercantum',p:cpmk.toLowerCase().includes('4')||cpmk.toLowerCase().includes('cpmk'),w:false,fb:'Pertemuan 10-11 fokus pada CPMK 4 (Evaluasi & Self-Assessment).'},
+    {n:'KKO level C4/C5 (analisis/evaluasi)',p:kko.toLowerCase().includes('analisis')||kko.toLowerCase().includes('evaluasi')||kko.toLowerCase().includes('menilai')||kko.toLowerCase().includes('mengkritis'),w:kko.length>2,fb:'Pertemuan 10-11 menargetkan C4 (Menganalisis) dan C5 (Mengevaluasi).'},
+    {n:'Strategi aktif (bukan ceramah)',p:strategi!=='Ceramah konvensional',w:strategi==='Ceramah konvensional',fb:'Gunakan strategi aktif yang mendukung evaluasi & self-assessment.'},
+    {n:'Alokasi waktu 150 menit',p:waktu===150,w:waktu>0&&waktu!==150,fb:`Waktu ideal 150 menit. Saat ini: ${waktu} menit.`},
+    {n:'Media mencantumkan FlowCheck',p:media.toLowerCase().includes('flowcheck'),w:false,fb:'Pertemuan 10-11 wajib menggunakan aplikasi FlowCheck sebagai media utama.'},
+    {n:'Kegiatan inti terdeskripsikan',p:kegiatan.length>20,w:false,fb:'Deskripsikan aktivitas modeling, guided, dan mandiri menggunakan FlowCheck.'},
+    {n:'Scaffolding modeling→guided→mandiri',p:keg.includes('modeling')||keg.includes('guided')||keg.includes('mandiri')||keg.includes('demonstrasi'),w:kegiatan.length>5,fb:'Pertemuan 10: dosen demo FlowCheck (modeling) → guided → mandiri.'},
+    {n:'Penilaian sesuai CPMK 4',p:penilaian.length>0,w:false,fb:'Ptm 10: laporan eksplorasi (5%) · Ptm 11: laporan self-assessment (5%).'},
+  ];
+
+  const passed=criteria.filter(c=>c.p).length;
+  const score=Math.round(passed/criteria.length*100);
+  const fbs=[];
+  if(score>=80)fbs.push({t:'success',l:'Alur pembelajaran sudah sesuai!',m:'Komponen CPMK 4 terpenuhi dengan baik. Pastikan self-assessment KKO dilakukan secara jujur dan kritis.'});
+  else if(score>=50)fbs.push({t:'warn',l:'Perlu beberapa perbaikan',m:'Beberapa komponen CPMK 4 perlu dilengkapi. Cek checklist di bawah.'});
+  else fbs.push({t:'warn',l:'Komponen masih banyak kurang',m:'Lengkapi dulu tujuan, CPMK, KKO C4/C5, dan pastikan FlowCheck tercantum sebagai media.'});
+  if(!media.toLowerCase().includes('flowcheck'))fbs.push({t:'info',l:'FlowCheck belum tercantum di media',m:'Aplikasi FlowCheck adalah media utama Pertemuan 10 & 11. Tambahkan ke field media.'});
+  if(kko.length>2&&!kko.toLowerCase().includes('analisis')&&!kko.toLowerCase().includes('evaluasi'))fbs.push({t:'info',l:'KKO perlu disesuaikan ke C4/C5',m:'CPMK 4 menargetkan C4 (Menganalisis) dan C5 (Mengevaluasi/Mengkritisi).'});
+  if(waktu!==150&&waktu>0)fbs.push({t:'warn',l:`Waktu ${waktu} menit`,m:'Sesuaikan ke 150 menit agar time-bound terpenuhi.'});
+
+  const stMap={pass:{ic:'ic-pass',ico:'✓',lbl:'Terpenuhi',st:'st-pass'},warn:{ic:'ic-warn',ico:'⚠',lbl:'Perhatian',st:'st-warn'},fail:{ic:'ic-fail',ico:'✗',lbl:'Belum ada',st:'st-fail'}};
+  document.getElementById('analisis-content').innerHTML=`
+    <div class="score-hero">
+      <div class="score-num">${score}<span style="font-size:24px">%</span></div>
+      <div class="score-info"><p>${passed}/${criteria.length} Kriteria CPMK 4 Terpenuhi</p><span>${score>=80?'✅ Alur evaluasi sudah baik':score>=50?'⚠️ Perlu beberapa perbaikan':'❌ Banyak komponen kurang'}</span></div>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="metric-val">${passed}</div><div class="metric-label">Kriteria OK</div></div>
+      <div class="metric"><div class="metric-val">${criteria.length-passed}</div><div class="metric-label">Perlu Fix</div></div>
+      <div class="metric"><div class="metric-val">${waktu||'-'}</div><div class="metric-label">Menit</div></div>
+      <div class="metric"><div class="metric-val">${ptm||'-'}</div><div class="metric-label">Pertemuan</div></div>
+    </div>
+    <div class="card"><div class="card-title">💬 Feedback Scaffolding</div>${fbs.map(f=>`<div class="fb fb-${f.t}"><div class="fb-label">${f.l}</div>${f.m}</div>`).join('')}</div>
+    <div class="card"><div class="card-title">✅ Checklist Kriteria CPMK 4</div>
+      <div class="pbar"><div class="pbar-fill" style="width:${score}%"></div></div>
+      <div class="crit-list">${criteria.map(c=>{const st=c.p?'pass':c.w?'warn':'fail';const m=stMap[st];return`<div class="crit-item"><div class="crit-row"><div class="crit-left"><div class="crit-icon ${m.ic}">${m.ico}</div><div class="crit-name">${c.n}</div></div><span class="st ${m.st}">${m.lbl}</span></div>${!c.p?`<div class="crit-fb">${c.fb}</div>`:''}</div>`;}).join('')}</div>
+    </div>`;
+
+  const nodes=[
+    {l:'Pembukaan',t:'0–20 mnt',d:'Apersepsi, review RPP dari Ptm 6-7',a:false},
+    {l:'Modeling FlowCheck',t:'20–50 mnt',d:'Dosen demo input RPP ke FlowCheck',a:keg.includes('modeling')||keg.includes('demonstrasi')},
+    {l:'Guided Practice',t:'50–90 mnt',d:'Mahasiswa input & analisis bersama',a:keg.includes('guided')},
+    {l:'Independent (Self-Assessment)',t:'90–130 mnt',d:'Self-assessment KKO via FlowCheck',a:keg.includes('mandiri')||keg.includes('self')},
+    {l:'Refleksi & Laporan',t:'130–150 mnt',d:'Submit laporan & penutup',a:false},
+  ];
+  document.getElementById('alur-content').innerHTML=`
+    <div class="card">
+      <div class="card-title">🗺️ Alur Scaffolding — ${mapel} Pertemuan ${ptm||'-'}</div>
+      <div class="card-sub">Node biru gelap = terdeteksi di deskripsi kegiatan kamu</div>
+      <div class="flowchart">${nodes.map((n,i)=>`<div class="flow-node ${n.a?'fn-active':'fn-default'}"><div class="fn-title">${n.l}</div><div class="fn-time">${n.t}</div><div class="fn-desc">${n.d}</div></div>${i<nodes.length-1?'<div class="flow-arr">↓</div>':''}`).join('')}</div>
+      <div class="tip" style="margin:12px 0 0;"><strong>FlowCheck check:</strong> ${keg.includes('flowcheck')||media.toLowerCase().includes('flowcheck')?'✅ FlowCheck terdeteksi sebagai media utama — sesuai CPMK 4!':'⚠️ FlowCheck belum terdeteksi — pastikan dicantumkan di kegiatan inti.'}</div>
+    </div>`;
+  switchTab('analisis');
+}
+</script>
+</body>
+</html>
